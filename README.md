@@ -7,6 +7,20 @@ go get github.com/djlad/gotainer
 ```
 
 ## Example Usage
+### Quick Start
+Make a new container
+```
+container := gotainer.NewContainer()
+```
+Use gotainer.Register to register a singleton (usually a struct) to an Interface.
+```
+gotainer.Register[InterfaceName](container, ImplementationName)
+```
+Use gotainer.Get to retrieve the dependency. This will usually be called in the constructors of Implementation structs.
+```
+dependency := gotainer.Get[InterfaceName](container)
+```
+The next sections contain more detail of how and why to use the container.
 ### Registering Dependencies
 In your main function, call a build function that will create your dependencies. For each interface/type your program needs, call Register or RegisterFactory. If the implementation relies on another dependency, pass the container to the constructor. In the constructor, it will get and store the dependencies it needs. Dependencies must be registered before they're requested. So if dependency A (example: Client) depends on B (example: HTTP) register dependency B first.
 ```
