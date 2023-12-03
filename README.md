@@ -12,7 +12,7 @@ Make a new container
 ```
 container := gotainer.NewContainer()
 ```
-Use gotainer.Register to register a singleton (usually a struct) to an Interface.
+Use gotainer.Register to register a singleton (usually a struct) to an interface or type. The singleton must implement the interface or be an instance of the type.
 ```
 gotainer.Register[InterfaceName](container, ImplementationName)
 ```
