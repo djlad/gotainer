@@ -1,5 +1,5 @@
 # Gotainer
-Dead simple dependency injection container for Golang. Easily swap implementations of your interfaces with mocks or alternative implementations.
+Dead simple dependency injection container for Golang. Easily swap implementations of your interfaces with mocks or alternative implementations. Never manually wire your dependencies again.
 
 ## Install
 ```
