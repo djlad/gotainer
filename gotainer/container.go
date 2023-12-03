@@ -15,6 +15,7 @@ type Container struct {
 
 // RegisterFactory registers a factory function to an interface or type. Whenever this dependency
 // is requested by Get, the factory function will be called and the result will be returned.
+// If called twice for the same interface or type, the second call will overwrite the first.
 func RegisterFactory[DependencyType any](container Container, factory func() DependencyType) {
 	t := reflect.TypeOf((*DependencyType)(nil)).Elem()
 	container.dependencies[t] = factory
@@ -22,6 +23,7 @@ func RegisterFactory[DependencyType any](container Container, factory func() Dep
 
 // Register registers a singleton to an interface or type. Whenever this dependency
 // is requested by Get, the same instance will be returned.
+// If called twice for the same interface or type, the second call will overwrite the first.
 func Register[DependencyType any](container Container, singleton DependencyType) {
 	t := reflect.TypeOf((*DependencyType)(nil)).Elem()
 	container.dependencies[t] = func() DependencyType { return singleton }
