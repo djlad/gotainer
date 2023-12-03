@@ -14,11 +14,19 @@ container := gotainer.NewContainer()
 ```
 Use gotainer.Register to register a singleton (usually a struct) to an interface or type. The singleton must implement the interface or be an instance of the type.
 ```
-gotainer.Register[InterfaceName](container, ImplementationName)
+gotainer.Register[InterfaceName](container, NewImplementationName(container))
 ```
 Use gotainer.Get to retrieve the dependency. This will usually be called in the constructors of Implementation structs.
 ```
 dependency := gotainer.Get[InterfaceName](container)
+```
+Use gotainer.RegisterFactory to have Get return a new instance of the struct each time.
+```
+gotainer.RegisterFactory[InterfaceName](container, NewImplementationName)
+```
+If the constructor NewImplementationName needs to use gotainer.Get for dependencies use a lambda to pass the container
+```
+gotainer.RegisterFactory[InterfaceName](container, func()InterfaceName{return NewImplementationName(container)})
 ```
 The next sections contain more detail of how and why to use the container.
 ### Registering Dependencies
