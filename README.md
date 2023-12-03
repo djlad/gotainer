@@ -20,14 +20,6 @@ Use gotainer.Get to retrieve the dependency. This will usually be called in the 
 ```
 dependency := gotainer.Get[InterfaceName](container)
 ```
-Use gotainer.RegisterFactory to have Get return a new instance of the struct each time.
-```
-gotainer.RegisterFactory[InterfaceName](container, NewImplementationName)
-```
-If the constructor NewImplementationName needs to use gotainer.Get for dependencies use a lambda to pass the container
-```
-gotainer.RegisterFactory[InterfaceName](container, func()InterfaceName{return NewImplementationName(container)})
-```
 The next sections contain more detail of how and why to use the container.
 ### Registering Dependencies
 In your main function, call a build function that will create your dependencies. For each interface/type your program needs, call Register or RegisterFactory. If the implementation relies on another dependency, pass the container to the constructor. In the constructor, it will get and store the dependencies it needs. Dependencies must be registered before they're requested. So if dependency A (example: Client) depends on B (example: HTTP) register dependency B first.
@@ -78,3 +70,12 @@ func NewClient(con gotainer.Container) Client {
 }
 ```
 In the previous section, we used Register to register an HTTP struct to Transport. So, Get[Transport] will return the HTTP struct.
+### Registering Factory Function
+gotainer.RegisterFactory can register a function that will create a new instance of the dependency each time Get is called.
+```
+gotainer.RegisterFactory[InterfaceName](container, NewImplementationName)
+```
+If the constructor NewImplementationName needs to use gotainer.Get for dependencies use a lambda to pass the container
+```
+gotainer.RegisterFactory[InterfaceName](container, func()InterfaceName{return NewImplementationName(container)})
+```
