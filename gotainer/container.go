@@ -30,7 +30,7 @@ func Register[DependencyType any](container Container, singleton DependencyType)
 }
 
 // Get retrieves the dependency stored by Register or RegisterFactory
-// that implments the type or interface given as a generic parameter.
+// that implements the type or interface given as a generic parameter.
 // Panics if no dependency was registered.
 func Get[DependencyType any](container Container) DependencyType {
 	dummy := (*DependencyType)(nil)
