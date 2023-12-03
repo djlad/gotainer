@@ -8,6 +8,7 @@ go get github.com/djlad/gotainer
 
 ## Example Usage
 ### Registering Dependencies
+In your main function, call a build function that will create your dependencies. For each interface/type your program needs, call register. If the implementation relies on another dependency, pass the container to the constructor. In the constructor, it will get and store the dependencies it needs. Dependencies must be registered before they're requested. So if dependency A (example: Client) depends on B (example: HTTP) register dependency B first.
 ```
 import (
   "github.com/djlad/gotainer/gontainer"
@@ -37,4 +38,21 @@ func main(){
   driver.start()
 }
 ```
-### Requesting dependencies
+### Requesting Dependencies
+In a struct's constructor, request all the dependencies it needs from the container. In this example, I'll have Client depend on a Transport interface.
+```
+type Client struct {
+	transport Transport
+}
+
+func (c Client) GetData() string {
+	return c.transport.get("fake url 1")
+}
+
+func NewClient(con gotainer.Container) Client {
+	return Client{
+		transport: gotainer.Get[Transport](con),
+	}
+}
+```
+In the previous section, we used Register to register an HTTP struct to Transport. So, Get[Transport] will return the HTTP struct.
