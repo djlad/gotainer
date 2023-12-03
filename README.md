@@ -8,7 +8,7 @@ go get github.com/djlad/gotainer
 
 ## Example Usage
 ### Registering Dependencies
-In your main function, call a build function that will create your dependencies. For each interface/type your program needs, call register. If the implementation relies on another dependency, pass the container to the constructor. In the constructor, it will get and store the dependencies it needs. Dependencies must be registered before they're requested. So if dependency A (example: Client) depends on B (example: HTTP) register dependency B first.
+In your main function, call a build function that will create your dependencies. For each interface/type your program needs, call Register or RegisterFactory. If the implementation relies on another dependency, pass the container to the constructor. In the constructor, it will get and store the dependencies it needs. Dependencies must be registered before they're requested. So if dependency A (example: Client) depends on B (example: HTTP) register dependency B first.
 ```
 import (
   "github.com/djlad/gotainer/gontainer"
@@ -39,7 +39,7 @@ func main(){
 }
 ```
 ### Requesting Dependencies
-In a struct's constructor, request all the dependencies it needs from the container. In this example, I'll have Client depend on a Transport interface.
+In a struct's constructor, take the container and request all the dependencies it needs from the container. In this example, I'll have Client depend on a Transport interface. You can now change Client's dependencies without changing any other files.
 ```
 type Client struct {
 	transport Transport
