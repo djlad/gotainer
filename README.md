@@ -38,7 +38,7 @@ func build() gotainer.Container {
   gotainer.Register[Client](container, NewClient(container))
   // register a driver that will Get its dependencies.
   // explicitly passing the type to register to is unnecessary since
-  // the type will be inferred by default. But, I'll add the generic paramater for clarity.
+  // the type will be inferred by default. But, I'll add the generic parameter for clarity.
   // If I was registering to an interface, then I'd have to specify the interface as a parameter
   gotainer.Register[Driver](container, NewDriver(container))
   return container
