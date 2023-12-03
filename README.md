@@ -1,5 +1,5 @@
 # Gotainer
-Dead simple dependency injection container for Golang. A dependency injection container stores implementations based on an interface. It can then be used to request a dependency given an interface. This allows you to easily swap implementations of your interfaces with mocks or alternative implementations. Never manually wire your dependencies again.
+Dead simple dependency injection container for Golang. This allows you to easily swap implementations of your interfaces with mocks or alternative implementations. Never manually wire your dependencies into constructor calls again.
 
 ## Install
 ```
