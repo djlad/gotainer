@@ -1,11 +1,8 @@
-// Copyright 2023 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
-// Hello is a simple hello, world demonstration web server.
+// Gotainer is a simple dependency injection container for Go.
 //
-// It serves version information on /version and answers
-// any other request like /name by saying "Hello, name!".
+// It can be used to register dependencies to interfaces and then retrieve them later
+// It is basically a map between interfaces and implementations.
+// Use it to easily swap ouy implementations or mocks.
 package main
 
 import (
