@@ -11,7 +11,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/djlad/gotainer/container"
+	"github.com/djlad/gotainer/gotainer"
 )
 
 type Transport interface {
@@ -40,9 +40,9 @@ func (c Client) GetData() string {
 	return c.transport.get("fake url 1")
 }
 
-func NewClient(con container.Container) Client {
+func NewClient(con gotainer.Container) Client {
 	return Client{
-		transport: container.Get[Transport](con),
+		transport: gotainer.Get[Transport](con),
 	}
 }
 
@@ -50,9 +50,9 @@ type Client2 struct {
 	transport Transport
 }
 
-func NewClient2(con container.Container) Client2 {
+func NewClient2(con gotainer.Container) Client2 {
 	return Client2{
-		transport: container.Get[Transport](con),
+		transport: gotainer.Get[Transport](con),
 	}
 }
 
@@ -74,22 +74,25 @@ func (d Driver) StartProgram() {
 	fmt.Println(d.client2.GetData())
 }
 
-func NewDriver(con container.Container) Driver {
+func NewDriver(con gotainer.Container) Driver {
 	return Driver{
-		client:  container.Get[Client](con),
-		client2: container.Get[Client2](con),
+		client:  gotainer.Get[Client](con),
+		client2: gotainer.Get[Client2](con),
 	}
 }
 
-func main() {
-	con := container.NewContainer()
-	// container.Register[Transport](con, func() Transport { return HTTP{} })
+func build() gotainer.Container {
+	container := gotainer.NewContainer()
+	gotainer.Register[Transport](container, HTTP{})
+	// gotainer.Register[Transport](container, SSH{})
+	gotainer.Register(container, NewClient(container))
+	gotainer.Register(container, NewClient2(container))
+	gotainer.Register(container, NewDriver(container))
+	return container
+}
 
-	container.Register[Transport](con, SSH{})
-	container.Register[Transport](con, HTTP{})
-	container.Register(con, NewClient(con))
-	container.Register(con, NewClient2(con))
-	container.Register(con, NewDriver(con))
-	driver := container.Get[Driver](con)
+func main() {
+	con := build()
+	driver := gotainer.Get[Driver](con)
 	driver.StartProgram()
 }
