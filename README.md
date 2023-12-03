@@ -9,7 +9,7 @@ go get github.com/djlad/gotainer
 ## Example Usage
 ```
 import (
-  "github.com/djlad/gotainer/container"
+  "github.com/djlad/gotainer/gontainer"
   ...
 )
 
